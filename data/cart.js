@@ -44,3 +44,7 @@ export function removeFromCart(productId) {
   
   saveToStorage();
 }
+
+export function calculateCartQuantity() {
+  
+}
