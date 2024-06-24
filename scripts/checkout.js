@@ -36,11 +36,14 @@ cart.forEach((cartItem) => {
                   </div>
                   <div class="product-quantity">
                     <span>
-                      Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                      Quantity: <span class="quantity-label current-quantity">${cartItem.quantity}</span>
                     </span>
-                    <span class="update-quantity-link link-primary">
+                    <span class="update-quantity-link link-primary js-update-link" data-product-id = "${matchingProduct.id}">
                       Update
                     </span>
+                      <input class="quantity-input update-quantity js-update-quantity">
+                      <span class="save-quantity-link link-primary update-quantity js-update-quantity js-save-quantity">Save</span>
+                      
                     <span class="delete-quantity-link link-primary js-delete-link" data-product-id = "${matchingProduct.id}">
                       Delete
                     </span>
@@ -125,3 +128,35 @@ function updateCartQuantity() {
     href="amazon.html">${cartQuantity} items</a>)
   `
 }
+
+document.querySelectorAll('.js-update-link').forEach((update) => {
+  update.addEventListener('click', () => {
+    const productId = update.dataset.productId;
+    console.log(productId);
+    document.querySelectorAll('.js-update-quantity')
+      .forEach((button) => {
+        button.classList.remove('update-quantity')
+      })
+
+    update.classList.add('update-quantity')
+
+    document.querySelector('.current-quantity').classList.add('update-quantity')
+
+    
+  })
+});
+
+document.querySelectorAll('.js-save-quantity')
+  .forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.js-update-quantity')
+        .forEach(button => {
+          button.classList.add('update-quantity')
+        })
+      
+      document.querySelectorAll('.js-update-link')
+        .forEach(button => {
+          button.classList.remove('update-quantity')
+        })
+    })
+  })
