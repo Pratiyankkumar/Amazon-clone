@@ -212,3 +212,6 @@
 .quantity-input{
   width: 30px;
 }
+.visible{
+  display: none;
+}
