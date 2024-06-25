@@ -2,6 +2,16 @@ import {cart, removeFromCart} from '../data/cart.js';
 import{products} from '../data/products.js';
 import {formatCurrency} from '../scripts/utils/money.js';
 
+
+// Initialize newValue properly
+let newValue = JSON.parse(localStorage.getItem('value')) || '';
+
+function saveToStorages() {
+  // Update newValue with the latest data before saving
+  localStorage.setItem('value', JSON.stringify(newValue));
+}
+
+
 updateCartQuantity()
 
 let cartSummaryHTML = '';
@@ -36,13 +46,13 @@ cart.forEach((cartItem) => {
                   </div>
                   <div class="product-quantity">
                     <span>
-                      Quantity: <span class="quantity-label current-quantity">${cartItem.quantity}</span>
+                      Quantity: <span class="quantity-label current-quantity2-${matchingProduct.id} current-quantity">${cartItem.quantity}</span>
                     </span>
-                    <span class="update-quantity-link link-primary js-update-link" data-product-id = "${matchingProduct.id}">
+                    <span class="update-quantity-link link-primary js-update-link js-update-link2-${matchingProduct.id}" data-product-id = "${matchingProduct.id}">
                       Update
                     </span>
-                      <input class="quantity-input">
-                      <span class="save-quantity-link link-primary">Save</span>
+                      <input class="quantity-input visible js-quantity js-update-${matchingProduct.id} js-input-${matchingProduct.id}" data-product-id = "${matchingProduct.id}">
+                      <span class="save-quantity-link link-primary visible js-update js-update-${matchingProduct.id}" data-product-id = "${matchingProduct.id}">Save</span>
                       
                     <span class="delete-quantity-link link-primary js-delete-link" data-product-id = "${matchingProduct.id}">
                       Delete
@@ -129,9 +139,57 @@ function updateCartQuantity() {
   `
 }
 
+
+
 document.querySelectorAll('.js-update-link').forEach((update) => {
   update.addEventListener('click', () => {
     const productId = update.dataset.productId;
     console.log(productId);
+
+    document.querySelectorAll(`.js-update-${productId}`).forEach((button) => {
+      button.classList.remove('visible')
+    })
+
+    document.querySelectorAll(`.js-update-link2-${productId}`)
+      .forEach((button) => {
+        button.classList.add('visible')
+      })
+    document.querySelectorAll(`.current-quantity2-${productId}`)
+      .forEach((button) => {
+        button.classList.add('visible')
+      })
+
+    
+
   })
 });
+
+
+
+
+document.querySelectorAll('.js-update')
+  .forEach((button) => {
+
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      console.log(productId);
+
+      newValue = document.querySelector(`.js-input-${productId}`).value;
+      console.log(newValue);
+      saveToStorages();
+
+      document.querySelectorAll(`.js-update-link2-${productId}`)
+      .forEach((button) => {
+        button.classList.remove('visible')
+      })
+    document.querySelectorAll(`.current-quantity2-${productId}`)
+      .forEach((button) => {
+        button.classList.remove('visible')
+        button.innerHTML = Number(newValue);
+      })
+
+      document.querySelectorAll(`.js-update-${productId}`).forEach((button) => {
+        button.classList.add('visible')
+      })
+    })
+  })
