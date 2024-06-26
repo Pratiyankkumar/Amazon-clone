@@ -1,15 +1,9 @@
-import {cart, removeFromCart} from '../data/cart.js';
+import {cart, removeFromCart,updateQuantity} from '../data/cart.js';
 import{products} from '../data/products.js';
 import {formatCurrency} from '../scripts/utils/money.js';
 
 
 // Initialize newValue properly
-let newValue = JSON.parse(localStorage.getItem('value')) || '';
-
-function saveToStorages() {
-  // Update newValue with the latest data before saving
-  localStorage.setItem('value', JSON.stringify(newValue));
-}
 
 
 updateCartQuantity()
@@ -45,7 +39,7 @@ cart.forEach((cartItem) => {
                     $${formatCurrency(matchingProduct.priceCents)}
                   </div>
                   <div class="product-quantity">
-                    <span>
+                    <span class="js-quantity2">
                       Quantity: <span class="quantity-label current-quantity2-${matchingProduct.id} current-quantity">${cartItem.quantity}</span>
                     </span>
                     <span class="update-quantity-link link-primary js-update-link js-update-link2-${matchingProduct.id}" data-product-id = "${matchingProduct.id}">
@@ -161,10 +155,10 @@ document.querySelectorAll('.js-update-link').forEach((update) => {
 
     
 
+    
+
   })
 });
-
-
 
 
 document.querySelectorAll('.js-update')
@@ -174,9 +168,10 @@ document.querySelectorAll('.js-update')
       const productId = button.dataset.productId;
       console.log(productId);
 
-      newValue = document.querySelector(`.js-input-${productId}`).value;
-      console.log(newValue);
-      saveToStorages();
+      const newQuantity = Number(document.querySelector(`.js-input-${productId}`).value);
+
+      updateQuantity(productId, newQuantity)
+      
 
       document.querySelectorAll(`.js-update-link2-${productId}`)
       .forEach((button) => {
@@ -185,7 +180,7 @@ document.querySelectorAll('.js-update')
     document.querySelectorAll(`.current-quantity2-${productId}`)
       .forEach((button) => {
         button.classList.remove('visible')
-        button.innerHTML = Number(newValue);
+        button.innerHTML = newQuantity;
       })
 
       document.querySelectorAll(`.js-update-${productId}`).forEach((button) => {
@@ -193,3 +188,7 @@ document.querySelectorAll('.js-update')
       })
     })
   })
+  
+
+
+
