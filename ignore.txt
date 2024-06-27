@@ -1,0 +1,88 @@
+export const deliveryOptions = [{
+  id: '1',
+  deliveryDays: 7,
+  priceCents: 0
+}, {
+  id: '2',
+  deliveryDays: 3,
+  priceCents: 499
+}, {
+  id: 3,
+  deliveryDays: 1,
+  priceCents: 999
+}]
+
+export let cart = JSON.parse(localStorage.getItem('cart')) || [{
+  productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+  quantity: 2,
+  deliveryOptionId: '1'
+}, {
+  productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+  quantity: 1,
+  deliveryOptionId: '2'
+}];
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+
+  saveToStorage();
+}
+
+function deliveryOptionsHTML(matchingProduct, cartItem) {
+  let html = '';
+  deliveryOptions.forEach((deliveryOption) => {
+    const today = dayjs();
+    const deliveryDate = today.add(
+      deliveryOption.deliveryDays,
+      'days'
+    );
+    const dateString = deliveryDate.format(
+      'dddd, MMMM D'
+    );
+    const priceString = deliveryOption.priceCents === 0
+      ? 'FREE'
+      : `$${formatCurrency(deliveryOption.priceCents)} -`;
+
+    const isChecked = deliveryOption.id  === cartItem.deliveryOptionId
+   html += `
+      <div class="delivery-option js-delivery-option"
+      data-product-id="${matchingProduct.id}"
+      data-delivery-option-id="${deliveryOption.id}">
+        <input type="radio"
+        ${isChecked ? 'checked' : ''}
+        class="delivery-option-input"
+          name="delivery-option-${matchingProduct.id}">
+        <div>
+          <div class="delivery-option-date">
+            ${dateString}
+          </div>
+          <div class="delivery-option-price">
+            ${priceString}  Shipping
+          </div>
+        </div>
+      </div>
+    `
+  })
+
+  return html;
+}
+
+document.querySelectorAll('.js-delivery-option')
+  .forEach((element) => {
+    element.addEventListener('click', () => {
+      const {productId, deliveryOptionId} = element.dataset;
+      console.log(productId)
+      console.log(deliveryOptionId);
+      updateDeliveryOption(productId, deliveryOptionId);
+    })
+  })
+
+,I dont know there is some problem in (.js-delivery-option) when we click on the element it doesnt console.log anything can you see whats the problem (if some variables are missing in the inputr that i have given to you and are importanst you can ask for that)
