@@ -12,4 +12,11 @@ describe('test suite: format Currency', () => {
   it('rounds up to the nearest count', () => {
     expect(formatCurrency(2000.5)).toEqual('20.01')
   });
+
+  it('rounds down to the nearest count', () => {
+    expect(formatCurrency(2000.4)).toEqual('20.00')
+  })
+  it('checks with negative number', () => {
+    expect(formatCurrency(-2000.5)).toEqual('-20.00')
+  })
 })
