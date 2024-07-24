@@ -93,7 +93,7 @@ describe('test suite: appliances class', () => {
     expect(product3.priceCents).toEqual(1899);
   })
   it('checks the extraInfoHTML()', () => {
-    expect(product3.extraInfoHTML()).toContain('supersimple.dev/images/appliance-instructions.png');
+    expect(product3.extraInfoHTML()).toContain('../images/appliance-instructions.png');
   })
   it('check the cents to dollar converter function', () => {
     expect(product3.getPrice()).toEqual('$18.99');

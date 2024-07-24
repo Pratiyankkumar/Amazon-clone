@@ -67,8 +67,8 @@ export class Appliance extends Product {
 
   extraInfoHTML() {
     return `
-      <a href="${this.instructionsLink}" target="_blank">Instructions</a>
-      <a href="${this.warrantyLink}" target="_blank">Warranty</a>
+      <a href="../images/appliance-instructions.png" target="_blank">Instructions</a>
+      <a href="../images/appliance-warranty.png" target="_blank">Warranty</a>
     `;
   }
 }
