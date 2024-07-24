@@ -1,11 +1,14 @@
 import { renderOrderSummary } from './checkout/orderSummary.js';
 import {renderPaymentSummary} from './checkout/paymentSummary.js';
-import {updateCartQuantity} from './checkout/orderSummary.js'
+import {updateCartQuantity} from './checkout/orderSummary.js';
+import { loadProducts } from '../data/products.js';
 // import '../data/car.js'
 // import '../data/cart-class.js';
 
-import '../data/backend-practice.js'
+// import '../data/backend-practice.js'
 
-updateCartQuantity();
-renderOrderSummary();
-renderPaymentSummary();
+loadProducts(() => {
+  updateCartQuantity();
+  renderOrderSummary();
+  renderPaymentSummary();
+});
