@@ -100,6 +100,31 @@ export class Appliance extends Product {
 
 export let products = [];
 
+export function loadProductsFetch() {
+  const promise = fetch(
+    'https://gist.githubusercontent.com/Pratiyankkumar/aa73f739c9cf77e0bad8f7cb4609589f/raw/cd8dbe777e5b7b43111ddb87a4734dba34bc768f/products.json'
+  ).then((response) => {
+    return response.json();
+  }).then((productsData) => {
+    products = productsData.map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      } else if (productDetails.type === 'appliance') {
+        return new Appliance(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log('load products');
+  });
+
+  return promise;
+}
+
+// loadProductsFetch().then(() => {
+//   console.log('next step')
+// });
+
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
