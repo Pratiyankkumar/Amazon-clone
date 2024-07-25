@@ -104,7 +104,7 @@ export function loadProductsFetch() {
   const promise = fetch(
     'https://gist.githubusercontent.com/Pratiyankkumar/aa73f739c9cf77e0bad8f7cb4609589f/raw/cd8dbe777e5b7b43111ddb87a4734dba34bc768f/products.json'
   ).then((response) => {
-    return response.json();
+    return response.json() // it is promise;
   }).then((productsData) => {
     products = productsData.map((productDetails) => {
       if (productDetails.type === 'clothing') {
