@@ -116,10 +116,12 @@ export function loadProductsFetch() {
     });
 
     console.log('load products');
-  });
+  })/*.catch((error) => {
+    console.log('Unexpected error. Please try again later.');
+  }); */
 
   return promise;
-}
+};
 
 // loadProductsFetch().then(() => {
 //   console.log('next step')
@@ -138,10 +140,14 @@ export function loadProducts(fun) {
       return new Product(productDetails);
     });
 
-    console.log('load products');
+    console.log('load productss');
 
     fun();
-  })
+  });
+
+  xhr.addEventListener('error', () => {
+    console.log('Unexpected error. Please try again later.');
+  });
 
   xhr.open('GET', 'https://gist.githubusercontent.com/Pratiyankkumar/aa73f739c9cf77e0bad8f7cb4609589f/raw/cd8dbe777e5b7b43111ddb87a4734dba34bc768f/products.json');
   xhr.send();
