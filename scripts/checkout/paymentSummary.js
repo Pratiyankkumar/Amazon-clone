@@ -4,6 +4,7 @@ import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import {formatCurrency} from '../utils/money.js';
 import { renderOrderSummary } from "./orderSummary.js";
 import { addOrder } from "../../data/orders.js";
+import { saveToStorage } from "../../data/cart.js";
 
 
 
@@ -90,7 +91,9 @@ export function renderPaymentSummary() {
         console.log(`${error}, Please try again later`)
       }
 
-      window.location.href = 'orders.html'
+      cart.splice(0,cart.length)
+      saveToStorage();
+      window.location.href = 'orders.html';
     });
 
 }
