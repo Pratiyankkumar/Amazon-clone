@@ -1,14 +1,61 @@
 import {cart, addToCart} from '../data/cart.js';
-import {products, loadProducts} from '../data/products.js';
+import {products, loadProductsFetch} from '../data/products.js';
 import {formatCurrency} from '../scripts/utils/money.js';
 updateCartQuantity();
-loadProducts(renderProductsGrid);
 
-function renderProductsGrid() {
+async function renderProducts() {
+  await loadProductsFetch();
+
+  document.querySelector('.js-search-button')
+    .addEventListener('click', () => {
+        // Get the value from the input box dynamically when the button is clicked
+        let value = document.querySelector('.js-search-bar').value.toLowerCase();
+
+        // Get the current URL
+        let currentUrl = window.location.href;
+
+        // Create a new URL object
+        let url = new URL(currentUrl);
+
+        // Set or update the 'search' parameter
+        url.searchParams.set('search', value);
+
+        // Update the page URL with the new parameter
+        window.location.href = url.toString();
+    });
+
+  const url = new URL(window.location.href);
+  let search = url.searchParams.get('search');
+
+  let filteredArray = [];
+
+  products.forEach(product => {
+    if (search) {
+      if (product.keywords.includes(search)) {
+        filteredArray.push(product);
+      }
+    }
+  })
+
+  console.log(filteredArray);
+
+  if (search) {
+    renderProductsGrid(filteredArray);
+  } else {
+    renderProductsGrid(products);
+  }
+}
+
+renderProducts();
+
+
+
+
+function renderProductsGrid(productsArray) {
 
   let productsHTML = '';
 
-  products.forEach((product) => {
+  productsArray.forEach((product) => {
     productsHTML += `
     <div class="product-container">
       <div class="product-image-container">

@@ -18,7 +18,7 @@ function loadPage() {
 
   let orderSummaryHTML = '';
 
-  orders.forEach((order,index) => {
+  orders.forEach((order) => {
     let orderDate = (order.orderTime).slice(0,10);
     let formatedDate = dayjs(orderDate).format('MMMM D');
 
@@ -46,7 +46,7 @@ function loadPage() {
         </div>
 
         <div class="order-details-grid">
-          ${loadOrderDetails(order)}
+          ${loadOrderDetails(order, orderId)}
         </div>
       </div>
     `;
@@ -69,7 +69,7 @@ function getProductById(productId) {
 }
 
 
-function loadOrderDetails(order) {
+function loadOrderDetails(order,orderId) {
   
   let orderDetails = '';
   order.products.forEach((product) => {
@@ -99,7 +99,7 @@ function loadOrderDetails(order) {
         </div>
 
         <div class="product-actions">
-          <a href="tracking.html?orderId=123&productId=456">
+          <a href="tracking.html?orderId=${orderId}&productId=${product.productId}">
             <button class="track-package-button button-secondary">
               Track package
             </button>
